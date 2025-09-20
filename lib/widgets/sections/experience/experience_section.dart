@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../themes.dart';
+import '../../../themes.dart';
 
 class ExperienceSection extends StatelessWidget {
   const ExperienceSection({super.key});

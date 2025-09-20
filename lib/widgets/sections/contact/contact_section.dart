@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../themes.dart';
+import '../../../themes.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});

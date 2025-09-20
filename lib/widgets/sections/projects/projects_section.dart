@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../themes.dart';
+import '../../../themes.dart';
 
 class ProjectsSection extends StatelessWidget {
   const ProjectsSection({super.key});

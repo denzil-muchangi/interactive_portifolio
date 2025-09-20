@@ -96,18 +96,6 @@ class AppThemes {
         color: Colors.white,
       ),
     ),
-    cardTheme: CardThemeData(
-      color: cardLight,
-      elevation: 8,
-      shadowColor: const Color.fromRGBO(30, 136, 229, 0.2),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(
-          color: Color.fromRGBO(30, 136, 229, 0.1),
-          width: 1,
-        ),
-      ),
-    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryBlue,
@@ -190,18 +178,6 @@ class AppThemes {
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: Colors.white,
-      ),
-    ),
-    cardTheme: CardThemeData(
-      color: cardDark,
-      elevation: 8,
-      shadowColor: const Color.fromRGBO(156, 39, 176, 0.3),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(
-          color: Color.fromRGBO(156, 39, 176, 0.2),
-          width: 1,
-        ),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

@@ -6,57 +6,79 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        int crossAxisCount = constraints.maxWidth > 800 ? 3 : 1;
-        return Container(
-          padding: const EdgeInsets.all(32),
-          child: Column(
+    final screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount;
+    double padding;
+    double iconSize;
+    double spacing;
+
+    if (screenWidth < 600) {
+      crossAxisCount = 1;
+      padding = 16;
+      iconSize = 24;
+      spacing = 16;
+    } else if (screenWidth < 900) {
+      crossAxisCount = 2;
+      padding = 24;
+      iconSize = 28;
+      spacing = 24;
+    } else {
+      crossAxisCount = 3;
+      padding = 32;
+      iconSize = 32;
+      spacing = 32;
+    }
+
+    return Container(
+      padding: EdgeInsets.all(padding),
+      child: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.work_outline,
-                    size: 32,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Projects',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ],
+              Icon(
+                Icons.work_outline,
+                size: iconSize,
+                color: Theme.of(context).colorScheme.primary,
               ),
-              const SizedBox(height: 32),
-              GridView.count(
-                crossAxisCount: crossAxisCount,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  ProjectCard(
-                    title: 'E-Commerce App',
-                    description:
-                        'A comprehensive e-commerce application featuring product catalog, shopping cart, payment integration, and user authentication.',
-                    techStack: 'Flutter, Dart, Firebase, Stripe API',
-                  ),
-                  ProjectCard(
-                    title: 'Weather App',
-                    description:
-                        'A weather application providing real-time weather data, forecasts, and location-based information with a clean, intuitive UI.',
-                    techStack: 'Flutter, Dart, OpenWeatherMap API',
-                  ),
-                  ProjectCard(
-                    title: 'Task Manager',
-                    description:
-                        'A productivity app for managing tasks, setting reminders, and organizing daily activities with offline support.',
-                    techStack: 'Flutter, Dart, SQLite, Provider',
-                  ),
-                ],
+              SizedBox(width: 8),
+              Text(
+                'Projects',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontSize: screenWidth < 600 ? 24 : null,
+                    ),
               ),
             ],
           ),
-        );
-      },
+          SizedBox(height: spacing),
+          GridView.count(
+            crossAxisCount: crossAxisCount,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: spacing / 2,
+            crossAxisSpacing: spacing / 2,
+            children: [
+              ProjectCard(
+                title: 'E-Commerce App',
+                description:
+                    'A comprehensive e-commerce application featuring product catalog, shopping cart, payment integration, and user authentication.',
+                techStack: 'Flutter, Dart, Firebase, Stripe API',
+              ),
+              ProjectCard(
+                title: 'Weather App',
+                description:
+                    'A weather application providing real-time weather data, forecasts, and location-based information with a clean, intuitive UI.',
+                techStack: 'Flutter, Dart, OpenWeatherMap API',
+              ),
+              ProjectCard(
+                title: 'Task Manager',
+                description:
+                    'A productivity app for managing tasks, setting reminders, and organizing daily activities with offline support.',
+                techStack: 'Flutter, Dart, SQLite, Provider',
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -100,6 +122,29 @@ class _ProjectCardState extends State<ProjectCard> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    double padding;
+    double titleFontSize;
+    double descFontSize;
+    double buttonFontSize;
+
+    if (screenWidth < 600) {
+      padding = 12;
+      titleFontSize = 18;
+      descFontSize = 14;
+      buttonFontSize = 12;
+    } else if (screenWidth < 900) {
+      padding = 14;
+      titleFontSize = 20;
+      descFontSize = 15;
+      buttonFontSize = 14;
+    } else {
+      padding = 16;
+      titleFontSize = 22;
+      descFontSize = 16;
+      buttonFontSize = 16;
+    }
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -122,21 +167,30 @@ class _ProjectCardState extends State<ProjectCard> {
             onTap: _showProjectModal,
             borderRadius: BorderRadius.circular(16),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(padding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.title,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontSize: titleFontSize,
+                        ),
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    widget.description,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  SizedBox(height: padding / 2),
+                  Expanded(
+                    child: Text(
+                      widget.description,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontSize: descFontSize,
+                          ),
+                      maxLines: screenWidth < 600 ? 3 : 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  const Spacer(),
+                  SizedBox(height: padding / 2),
                   Container(
+                    width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: AppThemes.getButtonGradient(
                         Theme.of(context).brightness,
@@ -149,8 +203,12 @@ class _ProjectCardState extends State<ProjectCard> {
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
                         elevation: 0,
+                        padding: EdgeInsets.symmetric(vertical: padding / 2),
                       ),
-                      child: const Text('View Project'),
+                      child: Text(
+                        'View Project',
+                        style: TextStyle(fontSize: buttonFontSize),
+                      ),
                     ),
                   ),
                 ],

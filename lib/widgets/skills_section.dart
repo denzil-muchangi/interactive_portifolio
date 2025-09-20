@@ -6,57 +6,79 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        int crossAxisCount = constraints.maxWidth > 800 ? 4 : 2;
-        return Container(
-          padding: const EdgeInsets.all(32),
-          child: Column(
+    final screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount;
+    double padding;
+    double iconSize;
+    double spacing;
+
+    if (screenWidth < 600) {
+      crossAxisCount = 2;
+      padding = 16;
+      iconSize = 24;
+      spacing = 16;
+    } else if (screenWidth < 900) {
+      crossAxisCount = 3;
+      padding = 24;
+      iconSize = 28;
+      spacing = 24;
+    } else {
+      crossAxisCount = 4;
+      padding = 32;
+      iconSize = 32;
+      spacing = 32;
+    }
+
+    return Container(
+      padding: EdgeInsets.all(padding),
+      child: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.star_outline,
-                    size: 32,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Skills',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ],
+              Icon(
+                Icons.star_outline,
+                size: iconSize,
+                color: Theme.of(context).colorScheme.primary,
               ),
-              const SizedBox(height: 32),
-              GridView.count(
-                crossAxisCount: crossAxisCount,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: const [
-                  SkillCard(
-                    title: 'Flutter',
-                    icon: Icons.flutter_dash,
-                    progress: 0.9,
-                  ),
-                  SkillCard(title: 'Dart', icon: Icons.code, progress: 0.85),
-                  SkillCard(
-                    title: 'Firebase',
-                    icon: Icons.cloud,
-                    progress: 0.8,
-                  ),
-                  SkillCard(title: 'Git', icon: Icons.merge, progress: 0.75),
-                  SkillCard(
-                    title: 'UI/UX',
-                    icon: Icons.design_services,
-                    progress: 0.7,
-                  ),
-                  SkillCard(title: 'REST APIs', icon: Icons.api, progress: 0.8),
-                ],
+              SizedBox(width: 8),
+              Text(
+                'Skills',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontSize: screenWidth < 600 ? 24 : null,
+                    ),
               ),
             ],
           ),
-        );
-      },
+          SizedBox(height: spacing),
+          GridView.count(
+            crossAxisCount: crossAxisCount,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: spacing / 2,
+            crossAxisSpacing: spacing / 2,
+            children: const [
+              SkillCard(
+                title: 'Flutter',
+                icon: Icons.flutter_dash,
+                progress: 0.9,
+              ),
+              SkillCard(title: 'Dart', icon: Icons.code, progress: 0.85),
+              SkillCard(
+                title: 'Firebase',
+                icon: Icons.cloud,
+                progress: 0.8,
+              ),
+              SkillCard(title: 'Git', icon: Icons.merge, progress: 0.75),
+              SkillCard(
+                title: 'UI/UX',
+                icon: Icons.design_services,
+                progress: 0.7,
+              ),
+              SkillCard(title: 'REST APIs', icon: Icons.api, progress: 0.8),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -82,6 +104,29 @@ class _SkillCardState extends State<SkillCard> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    double progressSize;
+    double iconSize;
+    double padding;
+    double strokeWidth;
+
+    if (screenWidth < 600) {
+      progressSize = 32;
+      iconSize = 16;
+      padding = 12;
+      strokeWidth = 3;
+    } else if (screenWidth < 900) {
+      progressSize = 40;
+      iconSize = 20;
+      padding = 14;
+      strokeWidth = 3.5;
+    } else {
+      progressSize = 48;
+      iconSize = 24;
+      padding = 16;
+      strokeWidth = 4;
+    }
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -104,7 +149,7 @@ class _SkillCardState extends State<SkillCard> {
             onTap: () {}, // Add ripple effect
             borderRadius: BorderRadius.circular(16),
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(padding),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -116,11 +161,11 @@ class _SkillCardState extends State<SkillCard> {
                         alignment: Alignment.center,
                         children: [
                           SizedBox(
-                            width: 48,
-                            height: 48,
+                            width: progressSize,
+                            height: progressSize,
                             child: CircularProgressIndicator(
                               value: value,
-                              strokeWidth: 4,
+                              strokeWidth: strokeWidth,
                               backgroundColor: Colors.grey.shade300,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                 _isHovered
@@ -131,7 +176,7 @@ class _SkillCardState extends State<SkillCard> {
                           ),
                           Icon(
                             widget.icon,
-                            size: 24,
+                            size: iconSize,
                             color: _isHovered
                                 ? Theme.of(context).colorScheme.primary
                                 : null,
@@ -140,15 +185,19 @@ class _SkillCardState extends State<SkillCard> {
                       );
                     },
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: padding / 2),
                   Text(
                     widget.title,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontSize: screenWidth < 600 ? 14 : null,
+                        ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: padding / 4),
                   Text(
                     '${(widget.progress * 100).toInt()}%',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontSize: screenWidth < 600 ? 12 : null,
+                        ),
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../themes.dart';
 
 class ProjectsSection extends StatelessWidget {
   const ProjectsSection({super.key});
@@ -12,9 +13,19 @@ class ProjectsSection extends StatelessWidget {
           padding: const EdgeInsets.all(32),
           child: Column(
             children: [
-              Text(
-                'Projects',
-                style: Theme.of(context).textTheme.headlineMedium,
+              Row(
+                children: [
+                  Icon(
+                    Icons.work_outline,
+                    size: 32,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Projects',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
               ),
               const SizedBox(height: 32),
               GridView.count(
@@ -95,15 +106,21 @@ class _ProjectCardState extends State<ProjectCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         transform: Matrix4.identity()..scale(_isHovered ? 1.05 : 1.0),
-        child: InkWell(
-          onTap: _showProjectModal,
-          child: Card(
-            elevation: _isHovered ? 8 : 2,
-            color: _isHovered
-                ? Theme.of(
-                    context,
-                  ).colorScheme.primaryContainer.withOpacity(0.8)
-                : Theme.of(context).cardColor,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: AppThemes.getCardGradient(Theme.of(context).brightness),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(_isHovered ? 0.2 : 0.1),
+                blurRadius: _isHovered ? 8 : 2,
+                offset: Offset(0, _isHovered ? 4 : 2),
+              ),
+            ],
+          ),
+          child: InkWell(
+            onTap: _showProjectModal,
+            borderRadius: BorderRadius.circular(16),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -119,9 +136,22 @@ class _ProjectCardState extends State<ProjectCard> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const Spacer(),
-                  ElevatedButton(
-                    onPressed: _showProjectModal,
-                    child: const Text('View Project'),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: AppThemes.getButtonGradient(
+                        Theme.of(context).brightness,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: _showProjectModal,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        elevation: 0,
+                      ),
+                      child: const Text('View Project'),
+                    ),
                   ),
                 ],
               ),

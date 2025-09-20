@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
+import 'themes.dart';
+import 'theme_provider.dart';
 import 'widgets/hero_section.dart';
 import 'widgets/about_section.dart';
 import 'widgets/skills_section.dart';
@@ -9,7 +12,12 @@ import 'widgets/experience_section.dart';
 import 'widgets/contact_section.dart';
 
 void main() {
-  runApp(const PortfolioApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const PortfolioApp(),
+    ),
+  );
 }
 
 class PortfolioApp extends StatelessWidget {
@@ -17,13 +25,14 @@ class PortfolioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Developer Portfolio',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: const PortfolioHomePage(),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          title: 'Flutter Developer Portfolio',
+          theme: themeProvider.currentTheme,
+          home: const PortfolioHomePage(),
+        );
+      },
     );
   }
 }
@@ -103,6 +112,17 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           ),
         ),
         actions: [
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return IconButton(
+                icon: Icon(
+                  themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                ),
+                onPressed: () => themeProvider.toggleTheme(),
+                tooltip: 'Toggle theme',
+              );
+            },
+          ),
           TextButton(
             onPressed: () => _scrollToSection(_heroKey),
             child: const Text('Home'),
@@ -130,52 +150,72 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            const DrawerHeader(child: Text('Navigation')),
-            ListTile(
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(_heroKey);
-              },
-            ),
-            ListTile(
-              title: const Text('About'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(_aboutKey);
-              },
-            ),
-            ListTile(
-              title: const Text('Skills'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(_skillsKey);
-              },
-            ),
-            ListTile(
-              title: const Text('Projects'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(_projectsKey);
-              },
-            ),
-            ListTile(
-              title: const Text('Experience'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(_experienceKey);
-              },
-            ),
-            ListTile(
-              title: const Text('Contact'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(_contactKey);
-              },
-            ),
-          ],
+        child: Consumer<ThemeProvider>(
+          builder: (context, themeProvider, child) {
+            return ListView(
+              children: [
+                DrawerHeader(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Navigation'),
+                      IconButton(
+                        icon: Icon(
+                          themeProvider.isDarkMode
+                              ? Icons.light_mode
+                              : Icons.dark_mode,
+                        ),
+                        onPressed: () => themeProvider.toggleTheme(),
+                        tooltip: 'Toggle theme',
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Home'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _scrollToSection(_heroKey);
+                  },
+                ),
+                ListTile(
+                  title: const Text('About'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _scrollToSection(_aboutKey);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Skills'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _scrollToSection(_skillsKey);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Projects'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _scrollToSection(_projectsKey);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Experience'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _scrollToSection(_experienceKey);
+                  },
+                ),
+                ListTile(
+                  title: const Text('Contact'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _scrollToSection(_contactKey);
+                  },
+                ),
+              ],
+            );
+          },
         ),
       ),
       body: SingleChildScrollView(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../themes.dart';
 
 class SkillsSection extends StatelessWidget {
   const SkillsSection({super.key});
@@ -12,7 +13,20 @@ class SkillsSection extends StatelessWidget {
           padding: const EdgeInsets.all(32),
           child: Column(
             children: [
-              Text('Skills', style: Theme.of(context).textTheme.headlineMedium),
+              Row(
+                children: [
+                  Icon(
+                    Icons.star_outline,
+                    size: 32,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Skills',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
+              ),
               const SizedBox(height: 32),
               GridView.count(
                 crossAxisCount: crossAxisCount,
@@ -74,15 +88,21 @@ class _SkillCardState extends State<SkillCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         transform: Matrix4.identity()..scale(_isHovered ? 1.05 : 1.0),
-        child: InkWell(
-          onTap: () {}, // Add ripple effect
-          child: Card(
-            elevation: _isHovered ? 8 : 2,
-            color: _isHovered
-                ? Theme.of(
-                    context,
-                  ).colorScheme.primaryContainer.withOpacity(0.8)
-                : Theme.of(context).cardColor,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: AppThemes.getCardGradient(Theme.of(context).brightness),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(_isHovered ? 0.2 : 0.1),
+                blurRadius: _isHovered ? 8 : 2,
+                offset: Offset(0, _isHovered ? 4 : 2),
+              ),
+            ],
+          ),
+          child: InkWell(
+            onTap: () {}, // Add ripple effect
+            borderRadius: BorderRadius.circular(16),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(

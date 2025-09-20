@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../themes.dart';
 
 class ExperienceSection extends StatelessWidget {
   const ExperienceSection({super.key});
@@ -11,9 +12,19 @@ class ExperienceSection extends StatelessWidget {
           padding: const EdgeInsets.all(32),
           child: Column(
             children: [
-              Text(
-                'Experience',
-                style: Theme.of(context).textTheme.headlineMedium,
+              Row(
+                children: [
+                  Icon(
+                    Icons.business_center_outlined,
+                    size: 32,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Experience',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
               ),
               const SizedBox(height: 32),
               ListView(
@@ -67,8 +78,19 @@ class ExperienceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        gradient: AppThemes.getCardGradient(Theme.of(context).brightness),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 2,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(

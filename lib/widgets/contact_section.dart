@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../themes.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -107,9 +108,22 @@ class _ContactSectionState extends State<ContactSection> {
                               },
                             ),
                             const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: _submitForm,
-                              child: const Text('Send Message'),
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: AppThemes.getButtonGradient(
+                                  Theme.of(context).brightness,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: ElevatedButton(
+                                onPressed: _submitForm,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  shadowColor: Colors.transparent,
+                                  elevation: 0,
+                                ),
+                                child: const Text('Send Message'),
+                              ),
                             ),
                           ],
                         ),
@@ -119,9 +133,30 @@ class _ContactSectionState extends State<ContactSection> {
                 )
               : Column(
                   children: [
-                    Text(
-                      'Contact Me',
-                      style: Theme.of(context).textTheme.headlineMedium,
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.contact_mail_outlined,
+                          size: 32,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(width: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.contact_mail_outlined,
+                              size: 32,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Contact Me',
+                              style: Theme.of(context).textTheme.headlineMedium,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
                     const Text('Email: your.email@example.com'),
@@ -175,9 +210,22 @@ class _ContactSectionState extends State<ContactSection> {
                             },
                           ),
                           const SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: _submitForm,
-                            child: const Text('Send Message'),
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: AppThemes.getButtonGradient(
+                                Theme.of(context).brightness,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ElevatedButton(
+                              onPressed: _submitForm,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                elevation: 0,
+                              ),
+                              child: const Text('Send Message'),
+                            ),
                           ),
                         ],
                       ),

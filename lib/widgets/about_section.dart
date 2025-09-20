@@ -20,7 +20,7 @@ class AboutSection extends StatelessWidget {
                         backgroundColor: Theme.of(
                           context,
                         ).colorScheme.secondary,
-                        child: const Icon(Icons.person, size: 100),
+                        child: const Icon(Icons.account_circle, size: 100),
                       ),
                     ),
                     const SizedBox(width: 32),
@@ -29,9 +29,21 @@ class AboutSection extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'About Me',
-                            style: Theme.of(context).textTheme.headlineMedium,
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.info_outline,
+                                size: 32,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'About Me',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineMedium,
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 16),
                           Text(
@@ -48,13 +60,23 @@ class AboutSection extends StatelessWidget {
                     CircleAvatar(
                       radius: 80,
                       backgroundColor: Theme.of(context).colorScheme.secondary,
-                      child: const Icon(Icons.person, size: 80),
+                      child: const Icon(Icons.account_circle, size: 80),
                     ),
                     const SizedBox(height: 32),
-                    Text(
-                      'About Me',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                      textAlign: TextAlign.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          size: 32,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'About Me',
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
                     Text(

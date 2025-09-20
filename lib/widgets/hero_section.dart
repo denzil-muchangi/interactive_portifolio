@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../themes.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
@@ -11,18 +12,34 @@ class HeroSection extends StatelessWidget {
         return Container(
           height: isDesktop ? 600 : 400,
           width: double.infinity,
-          color: Theme.of(context).colorScheme.primaryContainer,
+          decoration: BoxDecoration(
+            gradient: AppThemes.getHeroGradient(Theme.of(context).brightness),
+          ),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Welcome to My Portfolio',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontSize: isDesktop ? 48 : 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.waving_hand,
+                      size: isDesktop ? 48 : 32,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        'Welcome to My Portfolio',
+                        style: Theme.of(context).textTheme.headlineLarge
+                            ?.copyWith(
+                              fontSize: isDesktop ? 48 : 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -33,14 +50,27 @@ class HeroSection extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
-                ElevatedButton(
-                  onPressed: () {
-                    // Micro-interaction: show snackbar
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Exploring work...')),
-                    );
-                  },
-                  child: const Text('Explore My Work'),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: AppThemes.getButtonGradient(
+                      Theme.of(context).brightness,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Micro-interaction: show snackbar
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Exploring work...')),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      elevation: 0,
+                    ),
+                    child: const Text('Explore My Work'),
+                  ),
                 ),
               ],
             ),

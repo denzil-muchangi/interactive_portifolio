@@ -24,7 +24,7 @@ class PortfolioAppBar extends StatelessWidget implements PreferredSizeWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return AppBar(
-      title: Text(isMobile ? 'Flutter Portfolio' : 'Portfolio'),
+      title: const Text('Flutter Portfolio'),
       leading: isTablet
           ? IconButton(
               icon: AnimatedIcon(

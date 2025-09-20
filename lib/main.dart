@@ -26,7 +26,7 @@ class PortfolioApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return MaterialApp(
-          title: 'Flutter Developer Portfolio',
+          title: 'Flutter Portfolio',
           theme: themeProvider.currentTheme,
           home: const PortfolioHomePage(),
         );

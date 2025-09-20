@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
-import 'themes.dart';
 import 'theme_provider.dart';
 import 'widgets/hero_section.dart';
 import 'widgets/about_section.dart';
@@ -78,8 +76,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   void _updateScrollProgress() {
     if (_scrollController.position.maxScrollExtent > 0) {
       setState(() {
-        _scrollProgress =
-            _scrollController.position.pixels /
+        _scrollProgress = _scrollController.position.pixels /
             _scrollController.position.maxScrollExtent;
       });
     }
@@ -125,26 +122,32 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           ),
           TextButton(
             onPressed: () => _scrollToSection(_heroKey),
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
             child: const Text('Home'),
           ),
           TextButton(
             onPressed: () => _scrollToSection(_aboutKey),
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
             child: const Text('About'),
           ),
           TextButton(
             onPressed: () => _scrollToSection(_skillsKey),
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
             child: const Text('Skills'),
           ),
           TextButton(
             onPressed: () => _scrollToSection(_projectsKey),
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
             child: const Text('Projects'),
           ),
           TextButton(
             onPressed: () => _scrollToSection(_experienceKey),
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
             child: const Text('Experience'),
           ),
           TextButton(
             onPressed: () => _scrollToSection(_contactKey),
+            style: TextButton.styleFrom(foregroundColor: Colors.white),
             child: const Text('Contact'),
           ),
         ],
@@ -158,12 +161,14 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Navigation'),
+                      const Text('Navigation',
+                          style: TextStyle(color: Colors.white)),
                       IconButton(
                         icon: Icon(
                           themeProvider.isDarkMode
                               ? Icons.light_mode
                               : Icons.dark_mode,
+                          color: Colors.white,
                         ),
                         onPressed: () => themeProvider.toggleTheme(),
                         tooltip: 'Toggle theme',
@@ -172,42 +177,48 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                   ),
                 ),
                 ListTile(
-                  title: const Text('Home'),
+                  title:
+                      const Text('Home', style: TextStyle(color: Colors.white)),
                   onTap: () {
                     Navigator.pop(context);
                     _scrollToSection(_heroKey);
                   },
                 ),
                 ListTile(
-                  title: const Text('About'),
+                  title: const Text('About',
+                      style: TextStyle(color: Colors.white)),
                   onTap: () {
                     Navigator.pop(context);
                     _scrollToSection(_aboutKey);
                   },
                 ),
                 ListTile(
-                  title: const Text('Skills'),
+                  title: const Text('Skills',
+                      style: TextStyle(color: Colors.white)),
                   onTap: () {
                     Navigator.pop(context);
                     _scrollToSection(_skillsKey);
                   },
                 ),
                 ListTile(
-                  title: const Text('Projects'),
+                  title: const Text('Projects',
+                      style: TextStyle(color: Colors.white)),
                   onTap: () {
                     Navigator.pop(context);
                     _scrollToSection(_projectsKey);
                   },
                 ),
                 ListTile(
-                  title: const Text('Experience'),
+                  title: const Text('Experience',
+                      style: TextStyle(color: Colors.white)),
                   onTap: () {
                     Navigator.pop(context);
                     _scrollToSection(_experienceKey);
                   },
                 ),
                 ListTile(
-                  title: const Text('Contact'),
+                  title: const Text('Contact',
+                      style: TextStyle(color: Colors.white)),
                   onTap: () {
                     Navigator.pop(context);
                     _scrollToSection(_contactKey);

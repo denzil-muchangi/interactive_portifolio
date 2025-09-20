@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../themes.dart';
 
 class ContactSection extends StatefulWidget {
@@ -9,28 +11,13 @@ class ContactSection extends StatefulWidget {
 }
 
 class _ContactSectionState extends State<ContactSection> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _messageController = TextEditingController();
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _messageController.dispose();
-    super.dispose();
-  }
-
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Message sent successfully!')),
+        SnackBar(content: Text('Could not launch $url')),
       );
-      // Clear form
-      _nameController.clear();
-      _emailController.clear();
-      _messageController.clear();
     }
   }
 
@@ -49,84 +36,94 @@ class _ContactSectionState extends State<ContactSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Contact Me',
+                            'Let\'s Connect',
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                           const SizedBox(height: 16),
                           const Text('Email: your.email@example.com'),
-                          const Text('LinkedIn: linkedin.com/in/yourprofile'),
-                          const Text('GitHub: github.com/yourusername'),
+                          const Text('Phone: +1 (123) 456-7890'),
+                          const SizedBox(height: 24),
+                          const Text(
+                            'I\'m always open to discussing new opportunities, collaborations, or just having a chat about technology and innovation.',
+                            style: TextStyle(fontSize: 16, height: 1.5),
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(width: 32),
                     Expanded(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: _nameController,
-                              decoration: const InputDecoration(
-                                labelText: 'Name',
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Find me on social media',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SocialMediaButton(
+                                icon: Icons.business,
+                                label: 'LinkedIn',
+                                onPressed: () => _launchURL(
+                                    'https://linkedin.com/in/yourprofile'),
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your name';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              controller: _emailController,
-                              decoration: const InputDecoration(
-                                labelText: 'Email',
+                              const SizedBox(width: 16),
+                              SocialMediaButton(
+                                icon: Icons.code,
+                                label: 'GitHub',
+                                onPressed: () => _launchURL(
+                                    'https://github.com/yourusername'),
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your email';
-                                }
-                                if (!RegExp(
-                                  r'^[^@]+@[^@]+\.[^@]+',
-                                ).hasMatch(value)) {
-                                  return 'Please enter a valid email';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              controller: _messageController,
-                              decoration: const InputDecoration(
-                                labelText: 'Message',
+                              const SizedBox(width: 16),
+                              SocialMediaButton(
+                                icon: Icons.camera_alt,
+                                label: 'Instagram',
+                                onPressed: () => _launchURL(
+                                    'https://instagram.com/yourusername'),
                               ),
-                              maxLines: 4,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your message';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 16),
-                            Container(
-                              decoration: BoxDecoration(
-                                gradient: AppThemes.getButtonGradient(
-                                  Theme.of(context).brightness,
+                            ],
+                          ),
+                          const SizedBox(height: 32),
+                          Container(
+                            decoration: BoxDecoration(
+                              gradient: AppThemes.getButtonGradient(
+                                Theme.of(context).brightness,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.4),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 6),
                                 ),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: ElevatedButton(
-                                onPressed: _submitForm,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  shadowColor: Colors.transparent,
-                                  elevation: 0,
+                              ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () => _launchURL(
+                                  'https://drive.google.com/file/d/your-resume-link/view'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                elevation: 0,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 32, vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
-                                child: const Text('Send Message'),
+                              ),
+                              child: const Text(
+                                'Download Resume',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w600),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -136,104 +133,150 @@ class _ContactSectionState extends State<ContactSection> {
                     Row(
                       children: [
                         Icon(
-                          Icons.contact_mail_outlined,
+                          Icons.connect_without_contact,
                           size: 32,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         const SizedBox(width: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.contact_mail_outlined,
-                              size: 32,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              'Contact Me',
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ),
-                          ],
+                        Text(
+                          'Let\'s Connect',
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     const Text('Email: your.email@example.com'),
-                    const Text('LinkedIn: linkedin.com/in/yourprofile'),
-                    const Text('GitHub: github.com/yourusername'),
+                    const Text('Phone: +1 (123) 456-7890'),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'I\'m always open to discussing new opportunities, collaborations, or just having a chat about technology and innovation.',
+                      style: TextStyle(fontSize: 16, height: 1.5),
+                      textAlign: TextAlign.center,
+                    ),
                     const SizedBox(height: 32),
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: _nameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Name',
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your name';
-                              }
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            controller: _emailController,
-                            decoration: const InputDecoration(
-                              labelText: 'Email',
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
-                              }
-                              if (!RegExp(
-                                r'^[^@]+@[^@]+\.[^@]+',
-                              ).hasMatch(value)) {
-                                return 'Please enter a valid email';
-                              }
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            controller: _messageController,
-                            decoration: const InputDecoration(
-                              labelText: 'Message',
-                            ),
-                            maxLines: 4,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your message';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          Container(
-                            decoration: BoxDecoration(
-                              gradient: AppThemes.getButtonGradient(
-                                Theme.of(context).brightness,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: ElevatedButton(
-                              onPressed: _submitForm,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                shadowColor: Colors.transparent,
-                                elevation: 0,
-                              ),
-                              child: const Text('Send Message'),
-                            ),
+                    const Text(
+                      'Find me on social media',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 16),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: [
+                        SocialMediaButton(
+                          icon: Icons.business,
+                          label: 'LinkedIn',
+                          onPressed: () =>
+                              _launchURL('https://linkedin.com/in/yourprofile'),
+                        ),
+                        SocialMediaButton(
+                          icon: Icons.code,
+                          label: 'GitHub',
+                          onPressed: () =>
+                              _launchURL('https://github.com/yourusername'),
+                        ),
+                        SocialMediaButton(
+                          icon: Icons.camera_alt,
+                          label: 'Instagram',
+                          onPressed: () =>
+                              _launchURL('https://instagram.com/yourusername'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: AppThemes.getButtonGradient(
+                          Theme.of(context).brightness,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.4),
+                            blurRadius: 12,
+                            offset: const Offset(0, 6),
                           ),
                         ],
                       ),
-                    ),
+                      child: ElevatedButton(
+                        onPressed: () => _launchURL(
+                            'https://drive.google.com/file/d/your-resume-link/view'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: const Text(
+                          'Download Resume',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ).animate().fadeIn(delay: 500.ms, duration: 500.ms).scale(
+                          begin: const Offset(0.9, 0.9),
+                          end: const Offset(1, 1),
+                          duration: 400.ms,
+                          curve: Curves.elasticOut,
+                        ),
                   ],
                 ),
         );
       },
+    );
+  }
+}
+
+class SocialMediaButton extends StatelessWidget {
+  const SocialMediaButton({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: AppThemes.getCardGradient(Theme.of(context).brightness),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: IconButton(
+            onPressed: onPressed,
+            icon: Icon(icon, size: 32),
+            color: Theme.of(context).colorScheme.primary,
+            padding: const EdgeInsets.all(16),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+        ),
+      ],
     );
   }
 }

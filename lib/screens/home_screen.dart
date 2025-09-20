@@ -9,6 +9,7 @@ import '../widgets/common/navigation_drawer.dart';
 import '../widgets/common/app_bar.dart';
 import '../providers/scroll_provider.dart';
 import '../providers/navigation_provider.dart';
+import '../utils/responsive_utils.dart';
 
 class PortfolioHomePage extends StatefulWidget {
   const PortfolioHomePage({super.key});
@@ -36,8 +37,6 @@ class _PortfolioHomePageState extends State<PortfolioHomePage>
     bool isMobile = MediaQuery.of(context).size.width < 600;
     bool isTablet = MediaQuery.of(context).size.width >= 600 &&
         MediaQuery.of(context).size.width < 1200;
-    debugPrint(
-        'Screen width: ${MediaQuery.of(context).size.width}, isMobile: $isMobile, isTablet: $isTablet');
     return Scaffold(
       appBar: PortfolioAppBar(
         isMobile: isMobile,
@@ -50,7 +49,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage>
             controller: scrollProvider.scrollController,
             child: const DeviceAdaptiveLayout(),
           ),
-          if (navigationProvider.isDrawerOpen)
+          if (ResponsiveUtils.isMobile(context) &&
+              navigationProvider.isDrawerOpen)
             const PortfolioNavigationDrawer(),
         ],
       ),

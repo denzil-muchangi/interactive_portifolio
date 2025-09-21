@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../themes.dart';
+import '../../../utils/responsive_utils.dart';
 
 class TabletSkillsSection extends StatelessWidget {
   const TabletSkillsSection({super.key});
@@ -7,14 +8,14 @@ class TabletSkillsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(ResponsiveUtils.getResponsivePadding(context)),
       child: Column(
         children: [
           Row(
             children: [
               Icon(
                 Icons.star_outline,
-                size: 28,
+                size: ResponsiveUtils.getResponsiveIconSize(context),
                 color: Theme.of(context).colorScheme.primary,
               ),
               const SizedBox(width: 8),
@@ -24,13 +25,13 @@ class TabletSkillsSection extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: ResponsiveUtils.getResponsivePadding(context)),
           GridView.count(
-            crossAxisCount: 3,
+            crossAxisCount: ResponsiveUtils.getGridCrossAxisCount(context),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
+            mainAxisSpacing: ResponsiveUtils.getResponsivePadding(context),
+            crossAxisSpacing: ResponsiveUtils.getResponsivePadding(context),
             children: const [
               TabletSkillCard(
                 title: 'Flutter',
@@ -98,13 +99,14 @@ class TabletSkillCard extends StatelessWidget {
         },
         borderRadius: BorderRadius.circular(16),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding:
+              EdgeInsets.all(ResponsiveUtils.getResponsivePadding(context)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 36,
-                height: 36,
+                width: ResponsiveUtils.getResponsiveIconSize(context) * 1.5,
+                height: ResponsiveUtils.getResponsiveIconSize(context) * 1.5,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
@@ -124,11 +126,15 @@ class TabletSkillCard extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     SizedBox(
-                      width: 36,
-                      height: 36,
+                      width:
+                          ResponsiveUtils.getResponsiveIconSize(context) * 1.5,
+                      height:
+                          ResponsiveUtils.getResponsiveIconSize(context) * 1.5,
                       child: CircularProgressIndicator(
                         value: progress,
-                        strokeWidth: 3,
+                        strokeWidth:
+                            ResponsiveUtils.getResponsiveIconSize(context) *
+                                0.1,
                         backgroundColor:
                             Colors.grey.shade300.withValues(alpha: 0.3),
                         valueColor: AlwaysStoppedAnimation<Color>(
@@ -138,19 +144,22 @@ class TabletSkillCard extends StatelessWidget {
                     ),
                     Icon(
                       icon,
-                      size: 16,
+                      size:
+                          ResponsiveUtils.getResponsiveIconSize(context) * 0.7,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(
+                  height: ResponsiveUtils.getResponsivePadding(context) * 0.5),
               Text(
                 title,
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 4),
+              SizedBox(
+                  height: ResponsiveUtils.getResponsivePadding(context) * 0.25),
               Text(
                 '${(progress * 100).toInt()}%',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(

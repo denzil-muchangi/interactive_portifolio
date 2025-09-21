@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../themes.dart';
+import '../../../utils/responsive_utils.dart';
 import '../../sections/hero/animated_background.dart';
 import '../../sections/hero/animated_icon_widget.dart';
 
@@ -80,7 +81,9 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
               child: SlideTransition(
                 position: _slideAnimation,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  padding: EdgeInsets.symmetric(
+                      horizontal:
+                          ResponsiveUtils.getResponsivePadding(context)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -90,7 +93,8 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
                         children: [
                           AnimatedIconWidget(
                             icon: Icons.waving_hand,
-                            size: 36,
+                            size:
+                                ResponsiveUtils.getResponsiveIconSize(context),
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           const SizedBox(width: 16),
@@ -101,7 +105,8 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
                                   .textTheme
                                   .headlineLarge
                                   ?.copyWith(
-                                fontSize: 36,
+                                fontSize: ResponsiveUtils.getResponsiveFontSize(
+                                    context, 36),
                                 fontWeight: FontWeight.bold,
                                 shadows: [
                                   Shadow(
@@ -125,7 +130,8 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
                       Text(
                         'Flutter Developer specializing in beautiful, responsive apps',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontSize: 20,
+                          fontSize: ResponsiveUtils.getResponsiveFontSize(
+                              context, 20),
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.2),
@@ -176,18 +182,23 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
                             elevation: 0,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 40,
-                              vertical: 18,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: ResponsiveUtils.getResponsivePadding(
+                                      context) *
+                                  2,
+                              vertical: ResponsiveUtils.getResponsivePadding(
+                                      context) *
+                                  1.5,
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Explore My Work',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: ResponsiveUtils.getResponsiveFontSize(
+                                  context, 18),
                               fontWeight: FontWeight.w600,
                             ),
                           ),

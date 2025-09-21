@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../tablet/sections/tablet_hero_section.dart';
 import '../tablet/sections/tablet_about_section.dart';
 import '../tablet/sections/tablet_skills_section.dart';
-import '../mobile/sections/mobile_experience_section.dart';
-import '../mobile/sections/mobile_projects_section.dart';
-import '../mobile/sections/mobile_contact_section.dart';
+import '../tablet/sections/tablet_experience_section.dart';
+import '../tablet/sections/tablet_projects_section.dart';
+import '../tablet/sections/tablet_contact_section.dart';
 
 abstract class TabletSectionFactory {
   Widget createHeroSection();
@@ -26,11 +26,11 @@ class TabletSectionFactoryImpl implements TabletSectionFactory {
   Widget createSkillsSection() => const TabletSkillsSection();
 
   @override
-  Widget createExperienceSection() => const MobileExperienceSection();
+  Widget createExperienceSection() => const TabletExperienceSection();
 
   @override
-  Widget createProjectsSection() => const MobileProjectsSection();
+  Widget createProjectsSection() => const TabletProjectsSection();
 
   @override
-  Widget createContactSection() => const MobileContactSection();
+  Widget createContactSection() => const TabletContactSection();
 }

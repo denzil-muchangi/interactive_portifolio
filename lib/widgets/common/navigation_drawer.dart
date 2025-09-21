@@ -3,96 +3,134 @@ import 'package:provider/provider.dart';
 import '../../theme_provider.dart';
 import '../../providers/scroll_provider.dart';
 import '../../providers/navigation_provider.dart';
+import '../../utils/responsive_utils.dart';
 
-class PortfolioNavigationDrawer extends StatelessWidget {
+class PortfolioNavigationDrawer extends StatefulWidget {
   final bool isOverlay;
 
   const PortfolioNavigationDrawer({super.key, this.isOverlay = true});
 
+  @override
+  State<PortfolioNavigationDrawer> createState() =>
+      _PortfolioNavigationDrawerState();
+}
+
+class _PortfolioNavigationDrawerState extends State<PortfolioNavigationDrawer> {
   @override
   Widget build(BuildContext context) {
     final scrollProvider = Provider.of<ScrollProvider>(context);
     final navigationProvider = Provider.of<NavigationProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    Widget drawerContent = Container(
-      width: 250,
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: ListView(
-        children: [
-          DrawerHeader(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Navigation', style: TextStyle(color: Colors.white)),
-                IconButton(
-                  icon: Icon(
-                    themeProvider.isDarkMode
-                        ? Icons.light_mode
-                        : Icons.dark_mode,
-                    color: Colors.white,
+    final drawerWidth =
+        200 + ResponsiveUtils.getResponsivePadding(context) * 0.25;
+
+    Widget drawerContent = GestureDetector(
+      onHorizontalDragEnd: (details) {
+        if (details.primaryVelocity != null && details.primaryVelocity! > 0) {
+          navigationProvider.closeDrawer();
+        }
+      },
+      child: Container(
+        width: drawerWidth,
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Navigation',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize:
+                          ResponsiveUtils.getResponsiveFontSize(context, 20),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  onPressed: () => themeProvider.toggleTheme(),
-                  tooltip: 'Toggle theme',
-                ),
-              ],
+                  IconButton(
+                    icon: Icon(
+                      themeProvider.isDarkMode
+                          ? Icons.light_mode
+                          : Icons.dark_mode,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    onPressed: () => themeProvider.toggleTheme(),
+                    tooltip: 'Toggle theme',
+                  ),
+                ],
+              ),
             ),
-          ),
-          ListTile(
-            title: const Text('Home', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              navigationProvider.closeDrawer();
-              scrollProvider.scrollToSection(scrollProvider.heroKey);
-              navigationProvider.resetTimer();
-            },
-          ),
-          ListTile(
-            title: const Text('About', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              navigationProvider.closeDrawer();
-              scrollProvider.scrollToSection(scrollProvider.aboutKey);
-              navigationProvider.resetTimer();
-            },
-          ),
-          ListTile(
-            title: const Text('Skills', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              navigationProvider.closeDrawer();
-              scrollProvider.scrollToSection(scrollProvider.skillsKey);
-              navigationProvider.resetTimer();
-            },
-          ),
-          ListTile(
-            title:
-                const Text('Projects', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              navigationProvider.closeDrawer();
-              scrollProvider.scrollToSection(scrollProvider.projectsKey);
-              navigationProvider.resetTimer();
-            },
-          ),
-          ListTile(
-            title:
-                const Text('Experience', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              navigationProvider.closeDrawer();
-              scrollProvider.scrollToSection(scrollProvider.experienceKey);
-              navigationProvider.resetTimer();
-            },
-          ),
-          ListTile(
-            title: const Text('Contact', style: TextStyle(color: Colors.white)),
-            onTap: () {
-              navigationProvider.closeDrawer();
-              scrollProvider.scrollToSection(scrollProvider.contactKey);
-              navigationProvider.resetTimer();
-            },
-          ),
-        ],
+            ListTile(
+              title: Text('Home',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface)),
+              onTap: () {
+                navigationProvider.closeDrawer();
+                scrollProvider.scrollToSection(scrollProvider.heroKey);
+                navigationProvider.resetTimer();
+              },
+            ),
+            ListTile(
+              title: Text('About',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface)),
+              onTap: () {
+                navigationProvider.closeDrawer();
+                scrollProvider.scrollToSection(scrollProvider.aboutKey);
+                navigationProvider.resetTimer();
+              },
+            ),
+            ListTile(
+              title: Text('Skills',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface)),
+              onTap: () {
+                navigationProvider.closeDrawer();
+                scrollProvider.scrollToSection(scrollProvider.skillsKey);
+                navigationProvider.resetTimer();
+              },
+            ),
+            ListTile(
+              title: Text('Projects',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface)),
+              onTap: () {
+                navigationProvider.closeDrawer();
+                scrollProvider.scrollToSection(scrollProvider.projectsKey);
+                navigationProvider.resetTimer();
+              },
+            ),
+            ListTile(
+              title: Text('Experience',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface)),
+              onTap: () {
+                navigationProvider.closeDrawer();
+                scrollProvider.scrollToSection(scrollProvider.experienceKey);
+                navigationProvider.resetTimer();
+              },
+            ),
+            ListTile(
+              title: Text('Contact',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface)),
+              onTap: () {
+                navigationProvider.closeDrawer();
+                scrollProvider.scrollToSection(scrollProvider.contactKey);
+                navigationProvider.resetTimer();
+              },
+            ),
+          ],
+        ),
       ),
     );
 
-    return isOverlay
+    return widget.isOverlay
         ? SlideTransition(
             position: Tween<Offset>(
               begin: const Offset(-1.0, 0.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/responsive_utils.dart';
 
 class TabletAboutSection extends StatelessWidget {
   const TabletAboutSection({super.key});
@@ -6,18 +7,19 @@ class TabletAboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(ResponsiveUtils.getResponsivePadding(context)),
       child: Row(
         children: [
           Expanded(
             flex: 1,
             child: CircleAvatar(
-              radius: 80,
+              radius: ResponsiveUtils.getResponsiveIconSize(context) * 2,
               backgroundColor: Theme.of(context).colorScheme.secondary,
-              child: const Icon(Icons.account_circle, size: 80),
+              child: Icon(Icons.account_circle,
+                  size: ResponsiveUtils.getResponsiveIconSize(context) * 2),
             ),
           ),
-          const SizedBox(width: 24),
+          SizedBox(width: ResponsiveUtils.getResponsivePadding(context)),
           Expanded(
             flex: 2,
             child: Column(
@@ -27,7 +29,7 @@ class TabletAboutSection extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.info_outline,
-                      size: 28,
+                      size: ResponsiveUtils.getResponsiveIconSize(context),
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     const SizedBox(width: 8),

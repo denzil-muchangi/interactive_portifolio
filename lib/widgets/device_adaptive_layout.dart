@@ -68,8 +68,7 @@ class DeviceAdaptiveLayout extends StatelessWidget {
   }
 
   Widget _buildDesktopLayout(BuildContext context) {
-    // For desktop, use desktop factory, but since not implemented, use mobile for now
-    final factory = MobileSectionFactoryImpl(); // Placeholder
+    final factory = DesktopSectionFactoryImpl();
     return Column(
       children: [
         factory.createHeroSection(),

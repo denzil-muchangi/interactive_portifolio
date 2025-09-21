@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../utils/responsive_utils.dart';
 import 'factories/mobile_section_factory.dart';
 import 'factories/tablet_section_factory.dart';
 import 'factories/desktop_section_factory.dart';
 import 'common/navigation_drawer.dart';
 import 'package:provider/provider.dart';
-import '../providers/scroll_provider.dart';
-import '../providers/navigation_provider.dart';
+import '../controllers/navigation_controller.dart';
 
 class DeviceAdaptiveLayout extends StatelessWidget {
   const DeviceAdaptiveLayout({super.key});
@@ -38,12 +38,12 @@ class DeviceAdaptiveLayout extends StatelessWidget {
 
   Widget _buildTabletLayout(BuildContext context) {
     final factory = TabletSectionFactoryImpl();
-    final navigationProvider = Provider.of<NavigationProvider>(context);
+    final navigationController = Get.find<NavigationController>();
     return Row(
       children: [
         // Animated side navigation panel
         AnimatedContainer(
-          width: navigationProvider.isDrawerOpen
+          width: navigationController.isDrawerOpen.value
               ? (ResponsiveUtils.isSmallTablet(context) ? 200 : 250)
               : 0,
           duration: const Duration(milliseconds: 300),

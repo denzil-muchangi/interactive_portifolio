@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import 'theme_provider.dart';
 import 'screens/home_screen.dart';
-import 'providers/scroll_provider.dart';
-import 'providers/navigation_provider.dart';
+import 'controllers/navigation_controller.dart';
+import 'controllers/app_scroll_controller.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => ScrollProvider()),
-        ChangeNotifierProvider(create: (context) => NavigationProvider()),
       ],
       child: const PortfolioApp(),
     ),
@@ -23,9 +22,11 @@ class PortfolioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(NavigationController());
+    Get.put(AppScrollController());
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        return MaterialApp(
+        return GetMaterialApp(
           title: 'Flutter Portfolio',
           theme: themeProvider.currentTheme,
           home: const PortfolioHomePage(),

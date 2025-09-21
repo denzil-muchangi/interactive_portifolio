@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../theme_provider.dart';
-import '../../providers/scroll_provider.dart';
-import '../../providers/navigation_provider.dart';
+import '../../controllers/app_scroll_controller.dart';
+import '../../controllers/navigation_controller.dart';
 
 class PortfolioAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isMobile;
@@ -19,84 +20,88 @@ class PortfolioAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrollProvider = Provider.of<ScrollProvider>(context);
-    final navigationProvider = Provider.of<NavigationProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return AppBar(
-      title: const Text('Flutter Portfolio'),
-      leading: (isMobile || isTablet)
-          ? IconButton(
-              icon: AnimatedIcon(
-                icon: AnimatedIcons.menu_close,
-                progress: navigationProvider.iconAnimationController!,
+    return GetBuilder<AppScrollController>(
+      builder: (scrollController) => GetBuilder<NavigationController>(
+        builder: (navController) => AppBar(
+          title: const Text('Flutter Portfolio'),
+          leading: (isMobile || isTablet)
+              ? IconButton(
+                  icon: AnimatedIcon(
+                    icon: AnimatedIcons.menu_close,
+                    progress: navController.iconAnimationController!,
+                  ),
+                  onPressed: navController.isDrawerOpen.value
+                      ? navController.closeDrawer
+                      : navController.openDrawer,
+                )
+              : null,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(4),
+            child: LinearProgressIndicator(
+              value: scrollController.scrollProgress.value,
+              backgroundColor: Colors.transparent,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Theme.of(context).colorScheme.primary,
               ),
-              onPressed: navigationProvider.isDrawerOpen
-                  ? navigationProvider.closeDrawer
-                  : navigationProvider.openDrawer,
-            )
-          : null,
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(4),
-        child: LinearProgressIndicator(
-          value: scrollProvider.scrollProgress,
-          backgroundColor: Colors.transparent,
-          valueColor: AlwaysStoppedAnimation<Color>(
-            Theme.of(context).colorScheme.primary,
+            ),
           ),
+          actions: [
+            Consumer<ThemeProvider>(
+              builder: (context, themeProvider, child) {
+                return IconButton(
+                  icon: Icon(
+                    themeProvider.isDarkMode
+                        ? Icons.light_mode
+                        : Icons.dark_mode,
+                  ),
+                  onPressed: () => themeProvider.toggleTheme(),
+                  tooltip: 'Toggle theme',
+                );
+              },
+            ),
+            if (!isMobile && !isTablet) ...[
+              TextButton(
+                onPressed: () =>
+                    scrollController.scrollToSection(scrollController.heroKey),
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                child: const Text('Home'),
+              ),
+              TextButton(
+                onPressed: () =>
+                    scrollController.scrollToSection(scrollController.aboutKey),
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                child: const Text('About'),
+              ),
+              TextButton(
+                onPressed: () => scrollController
+                    .scrollToSection(scrollController.skillsKey),
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                child: const Text('Skills'),
+              ),
+              TextButton(
+                onPressed: () => scrollController
+                    .scrollToSection(scrollController.projectsKey),
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                child: const Text('Projects'),
+              ),
+              TextButton(
+                onPressed: () => scrollController
+                    .scrollToSection(scrollController.experienceKey),
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                child: const Text('Experience'),
+              ),
+              TextButton(
+                onPressed: () => scrollController
+                    .scrollToSection(scrollController.contactKey),
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                child: const Text('Contact'),
+              ),
+            ],
+          ],
         ),
       ),
-      actions: [
-        Consumer<ThemeProvider>(
-          builder: (context, themeProvider, child) {
-            return IconButton(
-              icon: Icon(
-                themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-              ),
-              onPressed: () => themeProvider.toggleTheme(),
-              tooltip: 'Toggle theme',
-            );
-          },
-        ),
-        if (!isMobile && !isTablet) ...[
-          TextButton(
-            onPressed: () =>
-                scrollProvider.scrollToSection(scrollProvider.heroKey),
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
-            child: const Text('Home'),
-          ),
-          TextButton(
-            onPressed: () =>
-                scrollProvider.scrollToSection(scrollProvider.aboutKey),
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
-            child: const Text('About'),
-          ),
-          TextButton(
-            onPressed: () =>
-                scrollProvider.scrollToSection(scrollProvider.skillsKey),
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
-            child: const Text('Skills'),
-          ),
-          TextButton(
-            onPressed: () =>
-                scrollProvider.scrollToSection(scrollProvider.projectsKey),
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
-            child: const Text('Projects'),
-          ),
-          TextButton(
-            onPressed: () =>
-                scrollProvider.scrollToSection(scrollProvider.experienceKey),
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
-            child: const Text('Experience'),
-          ),
-          TextButton(
-            onPressed: () =>
-                scrollProvider.scrollToSection(scrollProvider.contactKey),
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
-            child: const Text('Contact'),
-          ),
-        ],
-      ],
     );
   }
 }

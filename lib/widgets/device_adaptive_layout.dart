@@ -43,10 +43,12 @@ class DeviceAdaptiveLayout extends StatelessWidget {
       children: [
         // Animated side navigation panel
         AnimatedContainer(
-          width: navigationProvider.isDrawerOpen ? 250 : 0,
+          width: navigationProvider.isDrawerOpen
+              ? (ResponsiveUtils.isSmallTablet(context) ? 200 : 250)
+              : 0,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          child: PortfolioNavigationDrawer(isOverlay: false),
+          child: PortfolioNavigationDrawer(isOverlay: true),
         ),
         // Main content
         Expanded(

@@ -7,6 +7,7 @@ import 'factories/desktop_section_factory.dart';
 import 'common/navigation_drawer.dart';
 import 'package:provider/provider.dart';
 import '../controllers/navigation_controller.dart';
+import '../controllers/app_scroll_controller.dart';
 
 class DeviceAdaptiveLayout extends StatelessWidget {
   const DeviceAdaptiveLayout({super.key});
@@ -24,15 +25,18 @@ class DeviceAdaptiveLayout extends StatelessWidget {
 
   Widget _buildMobileLayout(BuildContext context) {
     final factory = MobileSectionFactoryImpl();
-    return Column(
-      children: [
-        factory.createHeroSection(),
-        factory.createAboutSection(),
-        factory.createSkillsSection(),
-        factory.createExperienceSection(),
-        factory.createProjectsSection(),
-        factory.createContactSection(),
-      ],
+    return SingleChildScrollView(
+      controller: Get.find<AppScrollController>().scrollController,
+      child: Column(
+        children: [
+          factory.createHeroSection(),
+          factory.createAboutSection(),
+          factory.createSkillsSection(),
+          factory.createExperienceSection(),
+          factory.createProjectsSection(),
+          factory.createContactSection(),
+        ],
+      ),
     );
   }
 
@@ -71,15 +75,18 @@ class DeviceAdaptiveLayout extends StatelessWidget {
 
   Widget _buildDesktopLayout(BuildContext context) {
     final factory = DesktopSectionFactoryImpl();
-    return Column(
-      children: [
-        factory.createHeroSection(),
-        factory.createAboutSection(),
-        factory.createSkillsSection(),
-        factory.createExperienceSection(),
-        factory.createProjectsSection(),
-        factory.createContactSection(),
-      ],
+    return SingleChildScrollView(
+      controller: Get.find<AppScrollController>().scrollController,
+      child: Column(
+        children: [
+          factory.createHeroSection(),
+          factory.createAboutSection(),
+          factory.createSkillsSection(),
+          factory.createExperienceSection(),
+          factory.createProjectsSection(),
+          factory.createContactSection(),
+        ],
+      ),
     );
   }
 }

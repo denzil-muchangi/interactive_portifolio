@@ -32,10 +32,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       drawer: null,
       body: Stack(
         children: [
-          SingleChildScrollView(
-            controller: Get.find<AppScrollController>().scrollController,
-            child: const DeviceAdaptiveLayout(),
-          ),
+          const DeviceAdaptiveLayout(),
           if (ResponsiveUtils.isMobile(context) &&
               Get.find<NavigationController>().isDrawerOpen.value)
             const PortfolioNavigationDrawer(),

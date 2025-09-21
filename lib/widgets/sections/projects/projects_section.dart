@@ -181,7 +181,7 @@ class _ProjectCardState extends State<ProjectCard> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -278,7 +278,9 @@ class _ProjectCardState extends State<ProjectCard> {
         curve: Curves.easeOutCubic,
         margin: EdgeInsets.all(_isHovered ? 8 : 0),
         transform: Matrix4.identity()
-          ..scale(_isHovered ? 1.08 : 1.0)
+          ..setEntry(1, 1, _isHovered ? 1.08 : 1.0)
+          ..setEntry(2, 2, _isHovered ? 1.08 : 1.0)
+          ..setEntry(3, 3, _isHovered ? 1.08 : 1.0)
           ..rotateZ(_isHovered ? 0.01 : 0.0),
         child: Container(
           decoration: BoxDecoration(
@@ -300,15 +302,15 @@ class _ProjectCardState extends State<ProjectCard> {
             boxShadow: [
               BoxShadow(
                 color: _isHovered
-                    ? widget.gradientColors[0].withOpacity(0.4)
-                    : Colors.black.withOpacity(0.1),
+                    ? widget.gradientColors[0].withValues(alpha: 0.4)
+                    : Colors.black.withValues(alpha: 0.1),
                 blurRadius: _isHovered ? 20 : 8,
                 spreadRadius: _isHovered ? 2 : 0,
                 offset: Offset(0, _isHovered ? 8 : 4),
               ),
               if (_isHovered)
                 BoxShadow(
-                  color: widget.gradientColors[1].withOpacity(0.2),
+                  color: widget.gradientColors[1].withValues(alpha: 0.2),
                   blurRadius: 30,
                   spreadRadius: 1,
                   offset: const Offset(0, 0),
@@ -328,11 +330,11 @@ class _ProjectCardState extends State<ProjectCard> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: _isHovered
-                          ? Colors.white.withOpacity(0.2)
+                          ? Colors.white.withValues(alpha: 0.2)
                           : Theme.of(context)
                               .colorScheme
                               .primary
-                              .withOpacity(0.1),
+                              .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -363,11 +365,11 @@ class _ProjectCardState extends State<ProjectCard> {
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontSize: descFontSize,
                             color: _isHovered
-                                ? Colors.white.withOpacity(0.9)
+                                ? Colors.white.withValues(alpha: 0.9)
                                 : Theme.of(context)
                                     .colorScheme
                                     .onSurface
-                                    .withOpacity(0.8),
+                                    .withValues(alpha: 0.8),
                           ),
                       maxLines: screenWidth < 600 ? 3 : 4,
                       overflow: TextOverflow.ellipsis,
@@ -388,7 +390,7 @@ class _ProjectCardState extends State<ProjectCard> {
                       boxShadow: _isHovered
                           ? [
                               BoxShadow(
-                                color: Colors.white.withOpacity(0.3),
+                                color: Colors.white.withValues(alpha: 0.3),
                                 blurRadius: 8,
                                 offset: const Offset(0, 2),
                               ),

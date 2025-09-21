@@ -79,7 +79,7 @@ class TabletSkillCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -90,7 +90,7 @@ class TabletSkillCard extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content:
-                  Text('${title} - ${(progress * 100).toInt()}% proficiency'),
+                  Text('$title - ${(progress * 100).toInt()}% proficiency'),
               duration: const Duration(seconds: 1),
               behavior: SnackBarBehavior.floating,
             ),
@@ -109,8 +109,14 @@ class TabletSkillCard extends StatelessWidget {
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
                     colors: [
-                      Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                      Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withValues(alpha: 0.2),
+                      Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withValues(alpha: 0.2),
                     ],
                   ),
                 ),
@@ -123,7 +129,8 @@ class TabletSkillCard extends StatelessWidget {
                       child: CircularProgressIndicator(
                         value: progress,
                         strokeWidth: 3,
-                        backgroundColor: Colors.grey.shade300.withOpacity(0.3),
+                        backgroundColor:
+                            Colors.grey.shade300.withValues(alpha: 0.3),
                         valueColor: AlwaysStoppedAnimation<Color>(
                           Theme.of(context).colorScheme.secondary,
                         ),
@@ -150,7 +157,7 @@ class TabletSkillCard extends StatelessWidget {
                       color: Theme.of(context)
                           .colorScheme
                           .onSurface
-                          .withOpacity(0.7),
+                          .withValues(alpha: 0.7),
                     ),
               ),
             ],

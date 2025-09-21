@@ -52,7 +52,7 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 500,
       width: double.infinity,
       child: Stack(
@@ -66,8 +66,8 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
                 colors: [
                   Colors.transparent,
                   Theme.of(context).brightness == Brightness.light
-                      ? Colors.white.withOpacity(0.1)
-                      : Colors.black.withOpacity(0.3),
+                      ? Colors.white.withValues(alpha: 0.1)
+                      : Colors.black.withValues(alpha: 0.3),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -105,7 +105,7 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
                                 fontWeight: FontWeight.bold,
                                 shadows: [
                                   Shadow(
-                                    color: Colors.black.withOpacity(0.3),
+                                    color: Colors.black.withValues(alpha: 0.3),
                                     offset: const Offset(2, 2),
                                     blurRadius: 4,
                                   ),
@@ -128,7 +128,7 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
                           fontSize: 20,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withValues(alpha: 0.2),
                               offset: const Offset(1, 1),
                               blurRadius: 2,
                             ),
@@ -157,7 +157,7 @@ class _TabletHeroSectionState extends State<TabletHeroSection>
                               color: Theme.of(context)
                                   .colorScheme
                                   .primary
-                                  .withOpacity(0.4),
+                                  .withValues(alpha: 0.4),
                               blurRadius: 12,
                               offset: const Offset(0, 6),
                             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:vector_math/vector_math_64.dart' as vm;
 import '../../../themes.dart';
 
 class SkillsSection extends StatelessWidget {
@@ -136,7 +137,7 @@ class _SkillCardState extends State<SkillCard> {
         curve: Curves.easeOutCubic,
         margin: EdgeInsets.all(_isHovered ? 8 : 0),
         transform: Matrix4.identity()
-          ..scale(_isHovered ? 1.08 : 1.0)
+          ..scaleByVector3(vm.Vector3.all(_isHovered ? 1.08 : 1.0))
           ..rotateZ(_isHovered ? 0.02 : 0.0),
         child: Container(
           decoration: BoxDecoration(
@@ -147,15 +148,17 @@ class _SkillCardState extends State<SkillCard> {
                 color: Theme.of(context)
                     .colorScheme
                     .primary
-                    .withOpacity(_isHovered ? 0.3 : 0.1),
+                    .withValues(alpha: _isHovered ? 0.3 : 0.1),
                 blurRadius: _isHovered ? 20 : 8,
                 spreadRadius: _isHovered ? 2 : 0,
                 offset: Offset(0, _isHovered ? 8 : 4),
               ),
               if (_isHovered)
                 BoxShadow(
-                  color:
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                  color: Theme.of(context)
+                      .colorScheme
+                      .secondary
+                      .withValues(alpha: 0.2),
                   blurRadius: 30,
                   spreadRadius: 1,
                   offset: const Offset(0, 0),
@@ -196,11 +199,11 @@ class _SkillCardState extends State<SkillCard> {
                               Theme.of(context)
                                   .colorScheme
                                   .primary
-                                  .withOpacity(0.2),
+                                  .withValues(alpha: 0.2),
                               Theme.of(context)
                                   .colorScheme
                                   .secondary
-                                  .withOpacity(0.2),
+                                  .withValues(alpha: 0.2),
                             ],
                           ),
                           boxShadow: _isHovered
@@ -209,7 +212,7 @@ class _SkillCardState extends State<SkillCard> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .primary
-                                        .withOpacity(0.4),
+                                        .withValues(alpha: 0.4),
                                     blurRadius: 15,
                                     spreadRadius: 2,
                                   ),
@@ -226,7 +229,7 @@ class _SkillCardState extends State<SkillCard> {
                                 value: value,
                                 strokeWidth: strokeWidth,
                                 backgroundColor:
-                                    Colors.grey.shade300.withOpacity(0.3),
+                                    Colors.grey.shade300.withValues(alpha: 0.3),
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                   _isHovered
                                       ? Theme.of(context).colorScheme.primary
@@ -271,7 +274,7 @@ class _SkillCardState extends State<SkillCard> {
                           color: Theme.of(context)
                               .colorScheme
                               .onSurface
-                              .withOpacity(0.7),
+                              .withValues(alpha: 0.7),
                         ),
                   ),
                 ],
